@@ -1,4 +1,4 @@
-﻿namespace Clinic.Models
+namespace Clinic.Models
 {
     public class Appointment
     {
@@ -15,5 +15,11 @@
         public Doctor Doctor { get; set; }
         public Report Report { get; set; }
         public Payment Payment { get; set; }
+
+        // Decorator Pattern: Dynamic tags (VIP, Urgent, LateFee)
+        public ICollection<AppointmentTag> Tags { get; set; } = new List<AppointmentTag>();
+
+        // Command Pattern: Cancellation history for undo support
+        public ICollection<CancellationCommand> CancellationCommands { get; set; } = new List<CancellationCommand>();
     }
 }

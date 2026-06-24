@@ -1,4 +1,4 @@
-﻿using Clinic.Models;
+using Clinic.Models;
 
 namespace Clinic.States
 {
@@ -28,5 +28,10 @@ namespace Clinic.States
         public void Confirm() => _state.Confirm(_appointment);
         public void Cancel() => _state.Cancel(_appointment);
         public void Complete() => _state.Complete(_appointment);
+
+        /// <summary>
+        /// Command Pattern: Undo the last cancellation and restore to Pending.
+        /// </summary>
+        public void UndoCancellation() => _state.UndoCancellation(_appointment);
     }
 }

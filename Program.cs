@@ -6,12 +6,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 builder.Services.AddSwaggerGen();
 
 
@@ -47,6 +53,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddScoped<Clinic.Repositories.AppointmentRepository>();
+builder.Services.AddScoped<Clinic.Repositories.AppointmentTagRepository>();       // Dev 6: Decorator Pattern
+builder.Services.AddScoped<Clinic.Repositories.CancellationCommandRepository>();  // Dev 6: Command Pattern
 builder.Services.AddScoped<Clinic.Services.RoleFactory>();
 
 builder.Services.AddCors(options =>

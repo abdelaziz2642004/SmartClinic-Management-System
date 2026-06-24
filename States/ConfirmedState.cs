@@ -1,4 +1,4 @@
-﻿using Clinic.Models;
+using Clinic.Models;
 
 namespace Clinic.States
 {
@@ -18,6 +18,12 @@ namespace Clinic.States
         public void Complete(Appointment appointment)
         {
             appointment.Status = AppointmentStatus.Completed;
+        }
+
+        public void UndoCancellation(Appointment appointment)
+        {
+            throw new InvalidOperationException(
+                "الموعد ليس ملغياً — لا يمكن التراجع عن الإلغاء");
         }
     }
 }

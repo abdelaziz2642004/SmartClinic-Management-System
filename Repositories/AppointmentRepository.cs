@@ -1,4 +1,4 @@
-﻿using Clinic.Data;
+using Clinic.Data;
 using Clinic.Models;
 using Clinic.States;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +19,7 @@ namespace Clinic.Repositories
             return await _context.Appointments
                 .Include(a => a.Patient)
                 .Include(a => a.Doctor)
+                .Include(a => a.Tags) // Decorator Pattern: Include tags
                 .ToListAsync();
         }
 
@@ -27,6 +28,7 @@ namespace Clinic.Repositories
             return await _context.Appointments
                 .Include(a => a.Patient)
                 .Include(a => a.Doctor)
+                .Include(a => a.Tags) // Decorator Pattern: Include tags
                 .FirstOrDefaultAsync(a => a.AppointmentId == id);
         }
 
@@ -49,10 +51,28 @@ namespace Clinic.Repositories
             return true;
         }
 
-        public async Task<bool> CancelAsync(int id)
+        /// <summary>
+        /// Cancel an appointment. Records a CancellationCommand before executing
+        /// so the action can be undone via the Command Pattern.
+        /// </summary>
+        public async Task<bool> CancelAsync(int id, string? cancelledByUserId = null)
         {
             var appointment = await _context.Appointments.FindAsync(id);
             if (appointment == null) return false;
+
+            // Command Pattern: Record the cancellation BEFORE executing it
+            var previousState = appointment.Status.ToString();
+            var command = new CancellationCommand
+            {
+                AppointmentId = appointment.AppointmentId,
+                PreviousState = previousState,
+                CancelledAt = DateTime.UtcNow,
+                CancelledByUserId = cancelledByUserId,
+                IsUndone = false
+            };
+            _context.CancellationCommands.Add(command);
+
+            // Execute the state transition
             var context = new AppointmentContext(appointment);
             context.Cancel();
             await _context.SaveChangesAsync();
