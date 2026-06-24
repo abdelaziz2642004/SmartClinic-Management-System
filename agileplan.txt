@@ -1,0 +1,50 @@
+The Team Assignments (7 Vertical Slices)
+Developer	Domain	Core API Responsibility & Design Patterns
+Dev 1	Architecture	Base N-Tier setup, DB Context, generic Repositories, Singleton (Logging).
+Dev 2	Identity	JWT Auth API, Factory (Role creation), Proxy (Medical record security).
+Dev 3	Appointments	Core booking API, State (Pending/Approved/Canceled lifecycle).
+Dev 4	Billing	Invoicing API, Strategy (Insurance vs. Out-of-Pocket calculation).
+Dev 5	Notifications	Alerts API, Observer (Triggering SMS/Email on state change).
+Dev 6	Modifiers	Modification API, Decorator (Tags), Command (Undo cancellation).
+Dev 7	Reporting	Export API, Adapter (Google Calendar sync), SQL Stored Procedures.
+
+The 3-Week Agile Timeline
+Milestone 1: The Foundation (Days 1 - 7)
+Goal: Database schema locked, basic C# architecture running, Auth functional, and standard CRUD endpoints working for all domains.
+Day 1-2: System Design (All 7 Devs) * Everyone agrees on the ERD and API JSON contracts. No coding begins until the database relationships are finalized.
+Day 3: The Bottleneck
+oDev 1 sets up the GitHub repository, ASP.NET Core skeleton, and Dependency Injection container.
+oWait State: Devs 2-7 cannot write backend code yet. They spend this day building their static Frontend HTML/CSS dashboards.
+Day 4: Security Gates
+oDev 2 builds the JWT authentication system.
+oWait State: Devs 3-7 pull Dev 1's code and build their basic DB migrations and controllers. They wait for Dev 2 to finish so they can lock their routes behind [Authorize].
+Days 5-7: Basic API Completion
+oAll developers finish their basic Create, Read, Update, and Delete endpoints and test them in Swagger/Postman.
+Milestone 2: Design Patterns & Business Logic (Days 8 - 14)
+Goal: Implement the heavy Object-Oriented principles. The API stops being a simple database wrapper and starts applying the complex clinic rules.
+Days 8-10: Independent Logic
+oDev 2 implements the Proxy middleware to secure medical records.
+oDev 3 refactors the Appointment API to use the strict State Pattern.
+oDev 6 builds the Decorator endpoints to allow dynamic tagging of appointments.
+Days 11-14: Dependent Logic (The Chain Reaction)
+oWait State: Devs 4, 5, 6, and 7 must wait for Dev 3's State pattern to be stable.
+oOnce an appointment hits "Completed," Dev 4 applies the Strategy Pattern to generate the bill.
+oOnce an appointment changes state, Dev 5 applies the Observer Pattern to trigger alerts.
+oDev 6 hooks up the Command Pattern to allow undoing Dev 3's cancellation logic.
+oDev 7 builds the Adapter to convert Dev 3's models into Google Calendar JSON.
+Milestone 3: UI Integration & Delivery (Days 15 - 21)
+Goal: Connect the frontend client to the API, resolve bugs, and conduct full system testing.
+Days 15-17: API Consumption
+oAll developers write JavaScript fetch() calls on their frontend pages to communicate with their completed API endpoints.
+Days 18-19: The Merge
+oAll individual frontend pages are merged into Dev 1's main Navigation Shell. CORS issues are resolved, and mobile responsiveness (Bootstrap) is verified.
+Days 20-21: End-to-End Testing
+oThe team runs realistic scenarios: A user registers (Dev 2), books an appointment (Dev 3), adds an urgent tag (Dev 6), pays via insurance (Dev 4), and receives a confirmation email (Dev 5).
+oFinal presentation prep.
+
+Dependency Matrix (Who Waits for Whom?)
+To prevent GitHub merge conflicts and wasted time, enforce these strict rules:
+1.The Architecture Lock: No backend code is written by anyone until Dev 1 finishes the base N-Tier setup on Day 3.
+2.The Security Lock: No one tests authenticated API endpoints until Dev 2 finishes the JWT implementation on Day 4.
+3.The Appointment Lock: Devs 4, 5, 6, and 7 cannot implement their advanced design patterns in Sprint 2 until Dev 3 finalizes the core Appointment entity and State machine.
+4.The UI Bypass: If any developer is blocked on the backend because they are waiting for a teammate, they must instantly switch to building their Frontend UI elements. No one should ever be sitting idle.

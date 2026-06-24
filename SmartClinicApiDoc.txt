@@ -1,0 +1,308 @@
+================================================================================
+                    SMART CLINIC API SYSTEM DOCUMENTATION
+================================================================================
+
+This document provides a comprehensive technical overview, deployment status, and 
+API reference for the Smart Clinic Management System. 
+
+--------------------------------------------------------------------------------
+1. SYSTEM OVERVIEW & ARCHITECTURE
+--------------------------------------------------------------------------------
+- Framework: ASP.NET Core 9.0 Web API
+- Database: Microsoft SQL Server (LocalDB / Express / MSSQLSERVER)
+- ORM: Entity Framework Core (EF Core) with Code-First Migrations
+- Authentication: JWT (Json Web Token) Bearer Authorization
+- Identity Management: Microsoft ASP.NET Core Identity Core
+- Key Architectural Design Patterns:
+  - Repository Pattern: Separates business logic from data access layers.
+  - State Pattern: Manages strict state transitions of Appointments.
+  - Decorator Pattern: Appends tags dynamically to Appointments without database schema alteration.
+  - Command Pattern: Stores state history to enable undo-last-cancellation behavior.
+  - Factory Pattern (Stub): Seeds database roles (Admin, Doctor, Patient).
+  - Proxy Pattern (Stub): Mocked access-control verification for sensitive files.
+
+--------------------------------------------------------------------------------
+2. DEVELOPMENT SLICE STATUS (DEV 1 - DEV 7)
+--------------------------------------------------------------------------------
+The project follows a 7-developer vertical slice architecture. The table below lists 
+the deployment and implementation status of all development scopes.
+
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+| Slice | Developer     | Assigned Patterns       | Status     | Implementation Details & Gaps                                       |
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+| DEV 1 | Architecture  | Repository, Singleton   | PARTIAL    | - DONE: N-Tier structure, AppDbContext, database indexes, and       |
+|       |               | (Logging)               |            |   GlobalExceptionMiddleware.                                        |
+|       |               |                         |            | - GAP: Generic Repository (IRepository<T>) was NOT implemented;     |
+|       |               |                         |            |   instead, entity-specific repositories are registered directly.    |
+|       |               |                         |            | - GAP: Built-in ASP.NET ILogger (singleton) is used; no custom      |
+|       |               |                         |            |   Logger class was created.                                         |
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+| DEV 2 | Identity      | Factory, Proxy          | PARTIAL    | - DONE: JWT authentication endpoints (Register, Login).             |
+|       |               |                         |            | - GAP (Factory): RoleFactory only seeds role names. It does not     |
+|       |               |                         |            |   handle profile creation routing for Doctor vs Patient.            |
+|       |               |                         |            | - GAP (Proxy): MedicalRecordProxy.cs exists but is NOT registered   |
+|       |               |                         |            |   in DI, has no controller/endpoint, allows all Doctors access,     |
+|       |               |                         |            |   and no MedicalRecords table exists in the database.               |
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+| DEV 3 | Appointments  | State                   | DONE       | - DONE: Appointment CRUD endpoints and complete state transition    |
+|       |               |                         |            |   engine (Pending -> Confirmed -> Completed or Cancelled).          |
+|       |               |                         |            | - Enforces state rules via class context and handles exceptions.     |
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+| DEV 4 | Billing       | Strategy                | NOT DONE   | - GAP: Payment.cs database model exists, but no Invoice models,     |
+|       |               |                         |            |   Billing endpoints, or Strategy patterns are implemented.          |
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+| DEV 5 | Notifications | Observer                | NOT DONE   | - GAP: Triggering SMS/Email on state changes (Observer Pattern)     |
+|       |               |                         |            |   is completely missing. No services or alerts APIs exist.          |
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+| DEV 6 | Modifiers     | Decorator, Command      | DONE       | - DONE: AppointmentTags JOIN-table and tag endpoint decorators.     |
+|       |               |                         |            | - DONE: CancellationCommands tracking table and user-level undo     |
+|       |               |                         |            |   cancellation endpoint (restoring appointment to prior state).     |
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+| DEV 7 | Reporting     | Adapter                 | NOT DONE   | - GAP: Export API, SQL Stored Procedures for report retrieval, and |
+|       |               |                         |            |   Google Calendar Sync Adapter pattern are completely missing.      |
++-------+---------------+-------------------------+------------+---------------------------------------------------------------------+
+
+--------------------------------------------------------------------------------
+3. GLOBAL ERROR RESPONSE SCHEMA
+--------------------------------------------------------------------------------
+All endpoints pass through a centralized error-handling middleware (GlobalExceptionMiddleware).
+Unhandled exceptions map to the following structured HTTP response format:
+
+Status Codes:
+- 400 Bad Request: For user validation failures or BadRequestExceptions.
+- 404 Not Found: When querying non-existent entities (NotFoundExceptions).
+- 409 Conflict: For duplicate database keys or DuplicateExceptions.
+- 500 Internal Server Error: General application crashes.
+
+Example Error JSON (404 Not Found):
+{
+  "statusCode": 404,
+  "error": "الموعد مش موجود"
+}
+
+Example Error JSON (409 Conflict):
+{
+  "statusCode": 409,
+  "error": "Tag 'VIP' already exists on this appointment."
+}
+
+--------------------------------------------------------------------------------
+4. AUTHENTICATION API REFERENCE
+--------------------------------------------------------------------------------
+
+A. Register User
+   - Route: POST /api/auth/register
+   - Description: Registers a new user account with ASP.NET Core Identity.
+   - Authentication Required: None
+   - Request Header: None
+   - Request Body (JSON):
+     {
+       "firstName": "John",
+       "lastName": "Doe",
+       "fullName": "John Doe",
+       "phone": "0123456789",
+       "birthday": "1990-01-01T00:00:00",
+       "gender": "Male",
+       "address": "123 Main St",
+       "email": "john.doe@example.com",
+       "password": "Password123!",
+       "role": "Patient"
+     }
+   - Responses:
+     - 200 OK: "Registered successfully"
+     - 400 Bad Request: Identity creation errors (e.g. duplicate email, invalid password format).
+
+B. Login User
+   - Route: POST /api/auth/login
+   - Description: Authenticates credentials and returns a Bearer Token.
+   - Authentication Required: None
+   - Request Body (JSON):
+     {
+       "email": "john.doe@example.com",
+       "password": "Password123!"
+     }
+   - Responses:
+     - 200 OK: Returns JWT access token.
+       {
+         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+       }
+     - 401 Unauthorized: "Invalid email or password"
+
+--------------------------------------------------------------------------------
+5. APPOINTMENTS API REFERENCE (DEV 3 - STATE Lifecycle)
+--------------------------------------------------------------------------------
+
+A. Get All Appointments
+   - Route: GET /api/appointments
+   - Description: Retrieves a list of all booked appointments. Eager-loads tags.
+   - Authentication Required: Recommended (Bearer Token)
+   - Responses:
+     - 200 OK: Array of appointments.
+       [
+         {
+           "appointmentId": 2,
+           "patientId": 1,
+           "doctorId": 1,
+           "appointmentDate": "2026-07-01T00:00:00",
+           "appointmentTime": "09:00:00",
+           "status": "Pending",
+           "message": "Routine visit",
+           "createdAt": "2026-06-24T20:19:32Z",
+           "tags": []
+         }
+       ]
+
+B. Get Appointment by ID
+   - Route: GET /api/appointments/{id}
+   - Description: Retrieves details of a specific appointment by ID.
+   - Path Parameters:
+     - id (integer): The unique identifier of the appointment.
+   - Responses:
+     - 200 OK: Appointment details object.
+     - 404 Not Found: "الموعد مش موجود"
+
+C. Create Appointment
+   - Route: POST /api/appointments
+   - Description: Books a new appointment. Initializes with the status "Pending".
+   - Request Body (JSON):
+     {
+       "patientId": 1,
+       "doctorId": 1,
+       "appointmentDate": "2026-07-01T00:00:00",
+       "appointmentTime": "09:00:00",
+       "message": "Routine checkup"
+     }
+   - Responses:
+     - 201 Created: Returns the created appointment resource with a location header.
+       {
+         "appointmentId": 3,
+         "patientId": 1,
+         "doctorId": 1,
+         "appointmentDate": "2026-07-01T00:00:00",
+         "appointmentTime": "09:00:00",
+         "status": "Pending",
+         "message": "Routine checkup",
+         "createdAt": "2026-06-24T20:24:00Z"
+       }
+
+D. Confirm Appointment
+   - Route: PUT /api/appointments/{id}/confirm
+   - Description: Transitions the appointment state from 'Pending' to 'Confirmed'.
+   - Path Parameters:
+     - id (integer): Appointment ID.
+   - Responses:
+     - 200 OK: "تم تأكيد الموعد"
+     - 404 Not Found: "الموعد مش موجود"
+     - 500 Internal Server Error (State Violation): "Something Wrong"
+
+E. Cancel Appointment
+   - Route: PUT /api/appointments/{id}/cancel
+   - Description: Transitions the appointment state from 'Pending' or 'Confirmed' to 'Cancelled'.
+     Command Pattern: Logs the cancellation command into history before completion.
+   - Authentication Required: Yes (Bearer Token)
+   - Path Parameters:
+     - id (integer): Appointment ID.
+   - Responses:
+     - 200 OK: "تم إلغاء الموعد"
+     - 404 Not Found: "الموعد مش موجود"
+     - 500 Internal Server Error (State Violation): "Something Wrong"
+
+F. Complete Appointment
+   - Route: PUT /api/appointments/{id}/complete
+   - Description: Transitions the appointment state from 'Confirmed' to 'Completed'.
+   - Path Parameters:
+     - id (integer): Appointment ID.
+   - Responses:
+     - 200 OK: "تم إنهاء الموعد"
+     - 404 Not Found: "الموعد مش موجود"
+     - 500 Internal Server Error (State Violation): "Something Wrong"
+
+G. Delete Appointment
+   - Route: DELETE /api/appointments/{id}
+   - Description: Hard-removes the appointment from the database.
+   - Path Parameters:
+     - id (integer): Appointment ID.
+   - Responses:
+     - 204 No Content: Success.
+     - 404 Not Found: "الموعد مش موجود"
+
+--------------------------------------------------------------------------------
+6. DECORATOR PATTERN: DYNAMIC TAGS API REFERENCE (DEV 6)
+--------------------------------------------------------------------------------
+
+A. Add Dynamic Tag
+   - Route: POST /api/appointments/{id}/tags
+   - Description: Dynamically appends a decorator tag (e.g. "VIP", "Urgent", "LateFee") 
+     to an appointment without modifying the base schema.
+   - Path Parameters:
+     - id (integer): Appointment ID.
+   - Request Body (JSON):
+     {
+       "tagName": "VIP"
+     }
+   - Responses:
+     - 200 OK: Returns added tag info.
+       {
+         "id": 1,
+         "tagName": "VIP",
+         "createdAt": "2026-06-24T20:21:01Z"
+       }
+     - 400 Bad Request: "Tag name is required."
+     - 404 Not Found: "Appointment with ID {id} not found."
+     - 409 Conflict: "Tag 'VIP' already exists on this appointment."
+
+B. Get Tags
+   - Route: GET /api/appointments/{id}/tags
+   - Description: Lists all tags decorated on the given appointment.
+   - Path Parameters:
+     - id (integer): Appointment ID.
+   - Responses:
+     - 200 OK: List of tag items.
+       [
+         {
+           "id": 1,
+           "tagName": "VIP",
+           "createdAt": "2026-06-24T20:21:01Z"
+         }
+       ]
+
+C. Remove Tag
+   - Route: DELETE /api/appointments/{id}/tags/{tagName}
+   - Description: Detaches a dynamic decorator tag from an appointment.
+   - Path Parameters:
+     - id (integer): Appointment ID.
+     - tagName (string): Name of the tag to delete (e.g. "Urgent").
+   - Responses:
+     - 200 OK: 
+       {
+         "message": "Tag 'Urgent' removed successfully."
+       }
+     - 404 Not Found:
+       {
+         "error": "Tag 'Urgent' not found on appointment 2."
+       }
+
+--------------------------------------------------------------------------------
+7. COMMAND PATTERN: UNDO CANCELLATION API REFERENCE (DEV 6)
+--------------------------------------------------------------------------------
+
+A. Undo Last Cancellation
+   - Route: POST /api/appointments/undo-last-cancel
+   - Description: Pops the most recent cancellation command recorded by the 
+     authenticated user and reverts the appointment back to its previous state 
+     (e.g., Pending, Confirmed). Enforced via the State Pattern.
+   - Authentication Required: Yes (Bearer Token)
+   - Request Body: Empty (None)
+   - Responses:
+     - 200 OK:
+       {
+         "message": "Cancellation reversed successfully.",
+         "restoredAppointmentId": 2,
+         "previousState": "Pending"
+       }
+     - 400 Bad Request: The appointment cannot transition back (e.g., is not Cancelled).
+     - 404 Not Found:
+       {
+         "error": "No cancellations found to undo."
+       }
+================================================================================
