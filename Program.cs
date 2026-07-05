@@ -64,7 +64,22 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
+//dev 5 notifications
+
+builder.Services.AddScoped<Clinic.Observers.IAppointmentSubject, Clinic.Observers.AppointmentNotifier>();
+builder.Services.AddScoped<Clinic.Observers.IAppointmentObserver, Clinic.Observers.NotificationObserver>();
+
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var notifier = scope.ServiceProvider.GetRequiredService<Clinic.Observers.IAppointmentSubject>();
+    var observer = scope.ServiceProvider.GetRequiredService<Clinic.Observers.IAppointmentObserver>();
+    notifier.Subscribe(observer);
+}
+
+
 app.UseCors();
 
 app.UseMiddleware<RequestLoggingMiddleware>();
