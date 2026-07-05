@@ -1,6 +1,7 @@
 using Clinic.Data;
 using Clinic.Models;
 using Clinic.States;
+using Clinic.Observers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Clinic.Repositories
@@ -8,10 +9,12 @@ namespace Clinic.Repositories
     public class AppointmentRepository
     {
         private readonly AppDbContext _context;
+        private readonly IAppointmentSubject _notifier;
 
-        public AppointmentRepository(AppDbContext context)
+        public AppointmentRepository(AppDbContext context, IAppointmentSubject notifier)
         {
             _context = context;
+            _notifier = notifier;
         }
 
         public async Task<List<Appointment>> GetAllAsync()
