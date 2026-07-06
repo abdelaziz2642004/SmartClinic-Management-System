@@ -92,8 +92,29 @@ using (var scope = app.Services.CreateScope())
     var roleFactory = scope.ServiceProvider
         .GetRequiredService<Clinic.Services.RoleFactory>();
     await roleFactory.CreateRolesAsync();
-}
 
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var adminEmail = "admin@clinic.com";
+    var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
+
+    if (existingAdmin == null)
+    {
+        var adminUser = new User
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            FirstName = "System",
+            LastName = "Admin",
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var createResult = await userManager.CreateAsync(adminUser, "Admin@12345");
+        if (createResult.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
