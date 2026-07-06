@@ -23,9 +23,13 @@ namespace Clinic.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto dto)
-        {
-            var user = new User
+public async Task<IActionResult> Register(RegisterDto dto)
+{
+    if (dto.Role != "Doctor" && dto.Role != "Patient")
+    {
+        return BadRequest("Role must be either 'Doctor' or 'Patient'. Admin accounts cannot self-register.");
+    }
+    var user = new User
             {
                 UserName = dto.Email,
                 Email = dto.Email,
