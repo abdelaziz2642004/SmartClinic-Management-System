@@ -18,7 +18,34 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Enter: Bearer followed by the token"
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
+});
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -69,6 +96,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<Clinic.Observers.IAppointmentSubject, Clinic.Observers.AppointmentNotifier>();
 builder.Services.AddScoped<Clinic.Observers.IAppointmentObserver, Clinic.Observers.NotificationObserver>();
 
+//dev 7 reporting - excel export
+builder.Services.AddScoped<Clinic.Reports.IReportExporter, Clinic.Reports.ExcelReportExporter>();
+//dev 7 reporting - google calendar sync
+builder.Services.AddScoped<Clinic.Calendar.ICalendarAdapter, Clinic.Calendar.GoogleCalendarAdapter>();
+
 var app = builder.Build();
 
 
@@ -92,29 +124,8 @@ using (var scope = app.Services.CreateScope())
     var roleFactory = scope.ServiceProvider
         .GetRequiredService<Clinic.Services.RoleFactory>();
     await roleFactory.CreateRolesAsync();
-
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-    var adminEmail = "admin@clinic.com";
-    var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
-
-    if (existingAdmin == null)
-    {
-        var adminUser = new User
-        {
-            UserName = adminEmail,
-            Email = adminEmail,
-            FirstName = "System",
-            LastName = "Admin",
-            CreatedAt = DateTime.UtcNow
-        };
-
-        var createResult = await userManager.CreateAsync(adminUser, "Admin@12345");
-        if (createResult.Succeeded)
-        {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
-    }
 }
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -123,11 +134,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseDefaultFiles();
 app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToFile("home.html");
 
 app.Run();
