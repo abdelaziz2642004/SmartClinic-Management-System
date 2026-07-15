@@ -10,19 +10,20 @@ namespace Clinic.Repositories
     {
         private readonly AppDbContext _context;
         private readonly IAppointmentSubject _notifier;
+        private readonly Clinic.Calendar.ICalendarAdapter _calendarAdapter;
 
-        public AppointmentRepository(AppDbContext context, IAppointmentSubject notifier)
+        public AppointmentRepository(AppDbContext context, IAppointmentSubject notifier, Clinic.Calendar.ICalendarAdapter calendarAdapter)
         {
             _context = context;
             _notifier = notifier;
+            _calendarAdapter = calendarAdapter;
         }
-
         public async Task<List<Appointment>> GetAllAsync()
         {
             return await _context.Appointments
                 .Include(a => a.Patient)
                 .Include(a => a.Doctor)
-                .Include(a => a.Tags) // Decorator Pattern: Include tags
+                .Include(a => a.Tags) 
                 .ToListAsync();
         }
 
@@ -31,7 +32,7 @@ namespace Clinic.Repositories
             return await _context.Appointments
                 .Include(a => a.Patient)
                 .Include(a => a.Doctor)
-                .Include(a => a.Tags) // Decorator Pattern: Include tags
+                .Include(a => a.Tags) 
                 .FirstOrDefaultAsync(a => a.AppointmentId == id);
         }
 
@@ -41,6 +42,16 @@ namespace Clinic.Repositories
             appointment.Status = AppointmentStatus.Pending;
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
+
+
+            try
+            {
+                await _calendarAdapter.CreateEventAsync(appointment);
+            }
+            catch (Exception)
+            {
+            }
+
             return appointment;
         }
 
@@ -54,16 +65,11 @@ namespace Clinic.Repositories
             return true;
         }
 
-        /// <summary>
-        /// Cancel an appointment. Records a CancellationCommand before executing
-        /// so the action can be undone via the Command Pattern.
-        /// </summary>
         public async Task<bool> CancelAsync(int id, string? cancelledByUserId = null)
         {
             var appointment = await _context.Appointments.FindAsync(id);
             if (appointment == null) return false;
 
-            // Command Pattern: Record the cancellation BEFORE executing it
             var previousState = appointment.Status.ToString();
             var command = new CancellationCommand
             {
@@ -75,7 +81,6 @@ namespace Clinic.Repositories
             };
             _context.CancellationCommands.Add(command);
 
-            // Execute the state transition
             var context = new AppointmentContext(appointment);
             context.Cancel();
             await _context.SaveChangesAsync();
