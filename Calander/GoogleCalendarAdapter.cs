@@ -20,6 +20,14 @@ namespace Clinic.Calendar
             var clientId = _config["GoogleCalendar:ClientId"];
             var clientSecret = _config["GoogleCalendar:ClientSecret"];
 
+            // Skip sync entirely when Google credentials aren't configured yet.
+            // Without this guard, Google.Apis tries to launch an OAuth flow with
+            // an empty client_id, which opens the browser to Google's error page.
+            if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret))
+            {
+                return string.Empty;
+            }
+
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                 new ClientSecrets
                 {
@@ -54,6 +62,7 @@ namespace Clinic.Calendar
                     TimeZone = "Africa/Cairo"
                 }
             };
+
 
             var createdEvent = await service.Events.Insert(newEvent, "primary").ExecuteAsync();
             return createdEvent.Id;

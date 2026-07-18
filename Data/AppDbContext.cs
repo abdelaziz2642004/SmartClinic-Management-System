@@ -30,6 +30,12 @@ namespace Clinic.Data
                 .HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
             modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.Patient)
+                .WithMany(u => u.Appointments)
+                .HasForeignKey(a => a.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Appointment>()
                 .HasIndex(a => new { a.DoctorId, a.AppointmentDate, a.AppointmentTime })
                 .IsUnique();
 
@@ -44,6 +50,17 @@ namespace Clinic.Data
             modelBuilder.Entity<Doctor>()
                 .Property(d => d.ConsultationFees)
                 .HasPrecision(10, 2);
+
+            modelBuilder.Entity<Doctor>()
+                .HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Doctor>()
+                .HasIndex(d => d.UserId)
+                .IsUnique()
+                .HasFilter("[UserId] IS NOT NULL");
 
             modelBuilder.Entity<Payment>()
                 .Property(p => p.Amount)

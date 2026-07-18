@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specialized Medical Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/Services.css">
+</head>
+<body>
+      <nav class="navbar navbar-expand-lg position-sticky top-0 navbar-custom">
+     <div class="container-fluid">
+       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+       </button>
+       <a class="navbar-brand right-0 navbar-toggler border-0" href="#"><img src="images/Logo1 Update.png" alt="" width="150px" /></a>
+       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+         <a class="navbar-brand" href="#"><img src="images/Logo1 Update.png" alt="" width="150px" /></a>
+         <ul class="navbar-nav me-auto mb-2 mb-lg-0 item">
+           <li class="nav-item" id="Home">
+             <a class="nav-link" aria-current="page" href="home.html">Home</a>
+           </li>
+           <li class="nav-item" id="About">
+             <a class="nav-link" href="About.html">About</a>
+           </li>
+           <li class="nav-item" id="Services">
+             <a class="nav-link" href="Services.html">Services</a>
+           </li>
+           <li class="nav-item" id="Doctors">
+             <a class="nav-link" href="Doctors.html">Doctors</a>
+           </li>
+           <li class="nav-item" id="Consultations">
+             <a class="nav-link" href="Consultations.html">Consultations</a>
+           </li>
+           <li class="nav-item" id="ContactUs">
+             <a class="nav-link" href="ContactUs.html">Contact Us</a>
+           </li>
+         </ul>
+           <div class="logout" id="loggedOutNav">
+             <a href="index.html"><button class="btn btn-primary me-3" type="button">Login</button></a>
+             <a href="index.html"><button class="btn btn-outline-primary me-5" type="button">Register</button></a>
+           </div>
+           <ul class="navbar-nav ms-auto spe profile-icon" id="profileIcon">
+             <li class="nav-item dropdown me-5">
+               <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenu" role="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">
+                 <i class="fas fa-user-circle fa-lg me-1"></i>
+               </a>
+               <ul class="dropdown-menu dropdown-menu-end ms-5" aria-labelledby="userMenu">
+                 <li><a class="dropdown-item" href="Profile.html">
+                     <i class="fas fa-user-circle fa-lg me-1"></i> Account</a>
+                 </li>
+                 <li><a class="dropdown-item text-danger" href="logout.php">
+                     <i class="fa-solid fa-right-from-bracket"></i> Log-out</a>
+                 </li>
+               </ul>
+             </li>
+           </ul>
+       </div>
+     </div>
+   </nav>
+    <div class="container">
+        <header class="main-header">
+            <h1>Expert Medical Care</h1>
+            <p>Our specialized departments offer world-class healthcare services using the latest medical innovations and patient-first approach.</p>
+        </header>
+
+        <div class="department-group cardio-actions">
+            <section class="medical-section cardiology">
+                <div class="info-side">
+                    <span class="badge">CARDIOLOGY UNIT</span>
+                    <h2>Advanced Heart Care</h2>
+                    <p>Leading the way in cardiovascular health with precise diagnostics and life-saving interventions.</p>
+                    
+                    <div class="feature-item">
+                        <div class="icon-box"><i class="fas fa-heart-pulse"></i></div>
+                        <div class="feature-text">
+                            <h3>Heart Rhythm Monitoring</h3>
+                            <p>High-precision ECG and Holter monitoring for arrhythmia detection.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon-box"><i class="fas fa-vial"></i></div>
+                        <div class="feature-text">
+                            <h3>Lipid & Cardiac Panels</h3>
+                            <p>Comprehensive blood analysis to assess your risk factors instantly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Heart Photo.avif" alt="Heart Scan">
+                    <div class="stats-float">
+                        <div class="stat-box"><b>99%</b><span>Accuracy</span></div>
+                        <div class="stat-box"><b>24/7</b><span>ER Response</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="action-container">
+                <div class="cta-card active">
+                    <i class="far fa-calendar-check cta-icon"></i>
+                    <h3>Heart Screening</h3>
+                    <p>Schedule a complete cardiovascular check-up with our senior doctors.</p>
+                    <a href="BookingCardiology.html" class="cta-btn solid">Book Now</a>
+                    <span class="meta-text">Available: Today</span>
+                </div>
+                <div class="cta-card">
+                    <i class="fas fa-phone-alt cta-icon"></i>
+                    <h3>Emergency Chest Pain</h3>
+                    <p>Immediate 24/7 cardiac response for acute heart symptoms.</p>
+                    <a href="#" class="cta-btn outline">Call Specialist</a>
+                    <span class="meta-text">+20 01014394959</span>
+                </div>
+                <div class="cta-card">
+                    <i class="fas fa-file-medical cta-icon"></i>
+                    <h3>ECG Review</h3>
+                    <p>Get a digital interpretation of your previous heart test results.</p>
+                    <a href="#" class="cta-btn outline">Request Review</a>
+                    <span class="meta-text">Response: Immediately</span>
+                </div>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="department-group ortho-actions">
+            <section class="medical-section orthopedic">
+                <div class="image-wrapper">
+                    <img src="images/Doctors Photo serv1.avif" alt="Orthopedic Care">
+                    <div class="stats-float">
+                        <div class="stat-box"><b>4k+</b><span>Surgeries</span></div>
+                        <div class="stat-box"><b>95%</b><span>Mobility Rate</span></div>
+                    </div>
+                </div>
+                <div class="info-side">
+                    <span class="badge">ORTHOPEDIC CENTER</span>
+                    <h2>Bone & Joint Specialist</h2>
+                    <p>Restoring movement and quality of life through advanced surgical and non-surgical treatments.</p>
+                    
+                    <div class="feature-item">
+                        <div class="icon-box"><i class="fas fa-bone"></i></div>
+                        <div class="feature-text">
+                            <h3>Joint Replacement</h3>
+                            <p>Minimal invasive hip and knee replacements using titanium implants.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon-box"><i class="fas fa-child"></i></div>
+                        <div class="feature-text">
+                            <h3>Sports Medicine</h3>
+                            <p>Specialized recovery programs for athletes and sports-related injuries.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="action-container">
+                <div class="cta-card active">
+                    <i class="fas fa-walking cta-icon"></i>
+                    <h3>Joint Evaluation</h3>
+                    <p>Analyze mobility issues or chronic pain with our orthopedic team.</p>
+                    <a href="BookingOrthopedics.html" class="cta-btn solid">Book Now</a>
+                    <span class="meta-text">Available: EveryDay</span>
+                </div>
+                <div class="cta-card">
+                    <i class="fas fa-crutch cta-icon"></i>
+                    <h3>Injury Support</h3>
+                    <p>Fast-track assessment for fractures or sudden sports injuries.</p>
+                    <a href="#" class="cta-btn outline">Quick Call</a>
+                    <span class="meta-text">+20 01014394959</span>
+                </div>
+                <div class="cta-card">
+                    <i class="fas fa-x-ray cta-icon"></i>
+                    <h3>X-Ray Analysis</h3>
+                    <p>Upload your scans for a second opinion on surgical recommendations.</p>
+                    <a href="#" class="cta-btn outline">Upload Files</a>
+                    <span class="meta-text">Response: Immediately</span>
+                </div>
+            </div>
+        </div>
+        <hr class="section-divider">
+        <div class="department-group dental-actions">
+            <section class="medical-section dental">
+                <div class="info-side">
+                    <span class="badge">DENTAL CLINIC</span>
+                    <h2>Smile Restorations</h2>
+                    <p>Comprehensive dental care ranging from routine hygiene to complex cosmetic procedures.</p>
+                    
+                    <div class="feature-item">
+                        <div class="icon-box"><i class="fas fa-tooth"></i></div>
+                        <div class="feature-text">
+                            <h3>Dental Implants</h3>
+                            <p>Permanent solutions for missing teeth with natural-looking results.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon-box"><i class="fas fa-wand-magic-sparkles"></i></div>
+                        <div class="feature-text">
+                            <h3>Laser Whitening</h3>
+                            <p>Professional whitening that brightens your smile in under 60 minutes.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Dentist Photo Serv3.avif" alt="Dental Clinic">
+                    <div class="stats-float">
+                        <div class="stat-box"><b>100%</b><span>Sterilized</span></div>
+                        <div class="stat-box"><b>10yr</b><span>Warranty</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="action-container">
+                <div class="cta-card active">
+                    <i class="fas fa-calendar-plus cta-icon"></i>
+                    <h3>Routine Checkup</h3>
+                    <p>Book your annual cleaning and deep-exam session.</p>
+                    <a href="BookingDen.html" class="cta-btn solid">Book Now</a>
+                    <span class="meta-text">Available: EveryDay</span>
+                </div>
+                <div class="cta-card">
+                    <i class="fas fa-comment-medical cta-icon"></i>
+                    <h3>Toothache Help</h3>
+                    <p>Speak with a dentist immediately for urgent dental pain.</p>
+                    <a href="#" class="cta-btn outline">Call Clinic</a>
+                    <span class="meta-text">+20 01014394959</span>
+                </div>
+                <div class="cta-card">
+                    <i class="fas fa-teeth cta-icon"></i>
+                    <h3>Cosmetic Quote</h3>
+                    <p>Get a price estimate for veneers, whitening, or implants.</p>
+                    <a href="#" class="cta-btn outline">Get Quote</a>
+                    <span class="meta-text">Response: Immediately</span>
+                </div>
+            </div>
+        </div>
+    </div>
+  <div class="footer">
+     <div class="container">
+       <div class="footer-content">
+         <div class="footer-box">
+           <h3>Doctors</h3>
+           <ul>
+             <li><a href="#">Medical</a></li>
+             <li><a href="#">Operation</a></li>
+             <li><a href="#">Laboratory</a></li>
+           </ul>
+         </div>
+         <div class="footer-box">
+           <h3>Treatments</h3>
+           <ul>
+             <li><a href="#">Cardiologist</a></li>
+             <li><a href="#">Dentist</a></li>
+             <li><a href="#">Orthopedics</a></li>
+           </ul>
+         </div>
+         <div class="footer-box">
+           <h3>Specialities</h3>
+           <ul>
+             <li><a href="#">Orthopedics</a></li>
+             <li><a href="#">Cardiologist</a></li>
+             <li><a href="#">Dentist</a></li>
+           </ul>
+         </div>
+         <div class="footer-box">
+           <h3 class="me">Utilites</h3>
+           <ul>
+             <li><a href="#">Operation</a></li>
+             <li><a href="#">Laboratory</a></li>
+             <li><a href="#">Medical</a></li>
+           </ul>
+         </div>
+         <div class="footer-box">
+           <h3>Contact Us</h3>
+           <p>Working for Your Better Health.</p>
+           <p>Contact With Us</p>
+           <ul class="social">
+             <li>
+               <a href="#"><i class="fa-brands fa-facebook"></i></a>
+             </li>
+             <li>
+               <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+             </li>
+             <li>
+               <a href="#"><i class="fa-brands fa-instagram"></i></a>
+             </li>
+             <li>
+               <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+             </li>
+           </ul>
+         </div>
+       </div>
+     </div>
+   </div>
+   <div class="copyright">
+     <p>© 2025 All Rights Reserved. Designed by MediCarely Team</p>
+     <div class="terms">
+       <p>Terms and Conditions</p>
+       <p>Privacy Policy</p>
+     </div>
+   </div>
+    <script src="Java/api.js"></script>
+    <script src="Java/Services.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>

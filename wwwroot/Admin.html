@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediCarely – Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="CSS/Cardiology  Dashboard.css"/>
+  <style>
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th, .admin-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #eef0f3; font-size: 14px; }
+    .admin-table th { color: #64748b; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+    .role-badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+    .role-badge--admin { background: #ede9fe; color: #6d28d9; }
+    .role-badge--doctor { background: #dbeafe; color: #1d4ed8; }
+    .role-badge--patient { background: #dcfce7; color: #15803d; }
+    .admin-action-btn { border: none; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; margin: 2px; }
+    .admin-action-btn--promote { background: #dbeafe; color: #1d4ed8; }
+    .admin-action-btn--admin { background: #ede9fe; color: #6d28d9; }
+    .admin-action-btn--patient { background: #f1f5f9; color: #475569; }
+    .promote-form { display: none; background: #f8fafc; padding: 14px; border-radius: 10px; margin-top: 8px; }
+    .promote-form.open { display: block; }
+    .promote-form select, .promote-form input { padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; margin-right: 6px; }
+  </style>
+</head>
+<body>
+
+  <aside class="left-nav-sidebar">
+    <div class="left-nav-logo-section">
+      <div class="left-nav-logo-icon">A</div>
+      <div class="left-nav-logo-text">
+        <div class="left-nav-app-name">Admin Panel</div>
+        <div class="left-nav-app-subtitle">MediCarely</div>
+      </div>
+    </div>
+    <nav class="left-nav-links-wrapper">
+      <div class="left-nav-link active">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Users
+      </div>
+    </nav>
+    <div class="left-nav-bottom-copyright"><a href="home.html" style="color:inherit;">&larr; Back to site</a></div>
+  </aside>
+
+  <main class="main-content-area">
+    <div class="page-section active" id="page-users">
+      <h1 class="page-section-title">User Management</h1>
+      <p class="page-section-subtitle">Change roles or grant a patient account access as a Doctor.</p>
+
+      <div id="adminMsg" style="margin-bottom:10px;"></div>
+
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Roles</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="usersTbody">
+          <tr><td colspan="5">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <div id="toasts" style="position:fixed;bottom:20px;right:20px;z-index:9999;"></div>
+
+  <script src="Java/api.js"></script>
+  <script src="Java/Admin.js"></script>
+</body>
+</html>

@@ -46,10 +46,8 @@ namespace Clinic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PatientId1")
+                    b.Property<string>("PatientId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Status")
@@ -57,8 +55,6 @@ namespace Clinic.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AppointmentId");
-
-                    b.HasIndex("PatientId1");
 
                     b.HasIndex("DoctorId", "AppointmentDate", "AppointmentTime")
                         .IsUnique();
@@ -150,6 +146,9 @@ namespace Clinic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -165,9 +164,16 @@ namespace Clinic.Migrations
                     b.Property<int>("SpecialtyID")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SpecialtyID");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Doctors");
                 });
@@ -487,7 +493,9 @@ namespace Clinic.Migrations
 
                     b.HasOne("Clinic.Models.User", "Patient")
                         .WithMany("Appointments")
-                        .HasForeignKey("PatientId1");
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Doctor");
 
@@ -531,7 +539,14 @@ namespace Clinic.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Clinic.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("Specialty");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Clinic.Models.Payment", b =>

@@ -83,6 +83,7 @@ builder.Services.AddScoped<Clinic.Repositories.AppointmentRepository>();
 builder.Services.AddScoped<Clinic.Repositories.AppointmentTagRepository>();       // Dev 6: Decorator Pattern
 builder.Services.AddScoped<Clinic.Repositories.CancellationCommandRepository>();  // Dev 6: Command Pattern
 builder.Services.AddScoped<Clinic.Services.RoleFactory>();
+builder.Services.AddScoped<Clinic.Services.DataSeeder>();
 
 builder.Services.AddCors(options =>
 {
@@ -124,6 +125,10 @@ using (var scope = app.Services.CreateScope())
     var roleFactory = scope.ServiceProvider
         .GetRequiredService<Clinic.Services.RoleFactory>();
     await roleFactory.CreateRolesAsync();
+
+    var dataSeeder = scope.ServiceProvider
+        .GetRequiredService<Clinic.Services.DataSeeder>();
+    await dataSeeder.SeedAsync();
 }
 
 

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediaCarely – Doctor Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="CSS/Cardiology  Dashboard.css"/>
+</head>
+<body>
+ 
+  <aside class="left-nav-sidebar">
+ 
+    <div class="left-nav-logo-section">
+      <div class="left-nav-logo-icon">M</div>
+      <div class="left-nav-logo-text">
+        <div class="left-nav-app-name">Dr. John Smith</div>
+        <div class="left-nav-app-subtitle">Cardiologist</div>
+      </div>
+    </div>
+ 
+    <nav class="left-nav-links-wrapper">
+      <div class="left-nav-link active" onclick="navigate('appts', this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        My Appointments
+      </div>
+      <div class="left-nav-link" onclick="navigate('patients', this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        My Patients
+      </div>
+      <div class="left-nav-link" onclick="navigate('reports', this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        Reports
+      </div>
+      <div class="left-nav-link" onclick="navigate('profile', this)">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        Profile
+      </div>
+    </nav>
+ 
+    <div class="left-nav-bottom-copyright">© 2026 MediaCarely</div>
+  </aside>
+
+  <main class="main-content-area">
+    <div class="page-section active" id="page-appts">
+      <h1 class="page-section-title">My Appointments</h1>
+      <p  class="page-section-subtitle">Manage your upcoming and past appointments</p>
+ 
+      <div class="appointments-filter-bar">
+        <button class="appointments-filter-button active" data-f="all"       onclick="filterAppts(this)">All</button>
+        <button class="appointments-filter-button" data-f="pending"   onclick="filterAppts(this)">Pending</button>
+        <button class="appointments-filter-button" data-f="confirmed" onclick="filterAppts(this)">Confirmed</button>
+        <button class="appointments-filter-button" data-f="completed" onclick="filterAppts(this)">Completed</button>
+        <button class="appointments-filter-button"        data-f="cancelled" onclick="filterAppts(this)">Cancelled</button>
+      </div>
+ 
+      <div class="appointments-table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="apptTbody"></tbody>
+        </table>
+      </div>
+    </div>
+ 
+    <div class="page-section" id="page-patients">
+      <h1 class="page-section-title">My Patients</h1>
+      <p  class="page-section-subtitle">Patients who have booked appointments with you</p>
+ 
+      <div class="patients-list-container" id="patientList"></div>
+    </div>
+
+    <div class="page-section" id="page-reports">
+      <h1 class="page-section-title">Reports</h1>
+      <p  class="page-section-subtitle">Quick overview of your practice</p>
+ 
+      <div class="reports-stats-grid">
+        <div class="report-stat-card">
+          <div class="report-stat-icon-box blue-tint">📅</div>
+          <div class="report-stat-number" id="rTotal"></div>
+          <div class="report-stat-description">Total Appointments</div>
+        </div>
+        <div class="report-stat-card">
+          <div class="report-stat-icon-box green-tint">✅</div>
+          <div class="report-stat-number" id="rCompleted"></div>
+          <div class="report-stat-description">Completed</div>
+        </div>
+        <div class="report-stat-card">
+          <div class="report-stat-icon-box amber-tint">⏳</div>
+          <div class="report-stat-number" id="rPending"></div>
+          <div class="report-stat-description">Pending</div>
+        </div>
+        <div class="report-stat-card">
+          <div class="report-stat-icon-box purple-tint">👥</div>
+          <div class="report-stat-number" id="rPatients"></div>
+          <div class="report-stat-description">Total Patients</div>
+        </div>
+      </div>
+ 
+      <div class="completion-rate-card">
+        <h3 class="completion-rate-title">Completion Rate</h3>
+        <div class="completion-rate-bar-row">
+          <div class="completion-rate-bar-track">
+            <div class="completion-rate-bar-fill" id="progBar"></div>
+          </div>
+          <div class="completion-rate-percentage-text" id="progPct"></div>
+        </div>
+        <div class="completion-rate-legend">
+          <span><span class="legend-dot legend-dot--green"></span><span id="legCompleted"></span></span>
+          <span><span class="legend-dot legend-dot--amber"></span><span id="legPending"></span></span>
+          <span><span class="legend-dot legend-dot--blue"></span><span id="legConfirmed"></span></span>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="page-section" id="page-profile">
+      <h1 class="page-section-title">Profile</h1>
+      <p  class="page-section-subtitle">Your professional information</p>
+ 
+      <div class="doctor-profile-card">
+ 
+        <div class="doctor-profile-banner">
+          <div class="doctor-profile-photo">👤</div>
+          <div>
+            <div class="doctor-profile-full-name"       id="profBannerName"></div>
+            <div class="doctor-profile-specialization"  id="profBannerSpec"></div>
+          </div>
+        </div>
+ 
+        <div class="doctor-profile-info-section">
+ 
+          <div class="doctor-profile-fields-grid">
+            <div class="doctor-profile-field">
+              <label>Name</label>
+              <div class="doctor-profile-field-value" id="pfName"></div>
+            </div>
+            <div class="doctor-profile-field">
+              <label>Specialization</label>
+              <div class="doctor-profile-field-value" id="pfSpec"></div>
+            </div>
+            <div class="doctor-profile-field">
+              <label>Email</label>
+              <div class="doctor-profile-field-value" id="pfEmail"></div>
+            </div>
+            <div class="doctor-profile-field">
+              <label>Phone</label>
+              <div class="doctor-profile-field-value" id="pfPhone"></div>
+            </div>
+          </div>
+ 
+          <button class="edit-profile-toggle-button" onclick="toggleEditForm()">Edit Profile</button>
+ 
+          <div class="edit-profile-form" id="editForm">
+            <div class="edit-profile-inputs-grid">
+              <div class="edit-profile-field-group">
+                <label>Full Name</label>
+                <input id="ef-name" type="text"/>
+              </div>
+              <div class="edit-profile-field-group">
+                <label>Specialization</label>
+                <input id="ef-spec" type="text"/>
+              </div>
+              <div class="edit-profile-field-group">
+                <label>Email</label>
+                <input id="ef-email" type="email"/>
+              </div>
+              <div class="edit-profile-field-group">
+                <label>Phone</label>
+                <input id="ef-phone" type="text"/>
+              </div>
+            </div>
+            <div class="edit-profile-form-actions">
+              <button class="save-profile-button"    onclick="saveProfile()">Save Changes</button>
+              <button class="discard-changes-button" onclick="toggleEditForm()">Discard</button>
+            </div>
+          </div>
+ 
+        </div>
+      </div>
+    </div>
+ 
+  </main>
+
+  <div class="modal-backdrop" id="modalBg">
+    <div class="modal-dialog-box">
+      <div class="modal-action-icon" id="mIcon"></div>
+      <div class="modal-action-title" id="mTitle"></div>
+      <div class="modal-action-description" id="mDesc"></div>
+      <div class="modal-appointment-info" id="mInfo"></div>
+ 
+      <div class="modal-message-field" id="mReasonWrap" style="display:none">
+        <label id="mReasonLabel"></label>
+        <textarea id="mReason"></textarea>
+      </div>
+ 
+      <div class="modal-footer-buttons">
+        <button class="modal-go-back-button" onclick="closeModal()">Go back</button>
+        <button class="modal-submit-button"  id="mActionBtn" onclick="doAction()"></button>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="toast-notification-stack" id="toasts"></div>
+
+  <script src="Java/api.js"></script>
+
+  <script src="Java/Cardiology  Dashboard.js"></script>
+</body>
+</html>

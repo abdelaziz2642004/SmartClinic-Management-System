@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.consultations {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background: linear-gradient(
+        to right,
+        rgba(7, 79, 168, 0.95) 0%,
+        rgba(25, 110, 210, 0.85) 40%,
+        rgba(80, 170, 255, 0.65) 75%,
+        rgba(255, 255, 255, 0.15) 100%
+    );
+}
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+}
+.main-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+
+}
+.cons-left {
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.cons-left img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+.cons-right {
+    width: 50%;
+    color: #fff;
+}
+
+.cons-right h1 {
+    font-size: 40px;
+    margin-bottom: 30px;
+    line-height: 1.4;
+    font-weight: 900;
+}
+.cons-right h1 span {
+    color: #ff9f1c;
+}
+form {
+    width: 100%;
+}
+.form-group,
+.form-row {
+    margin-bottom: 20px;
+}
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+button {
+    width: 100%;
+    padding: 15px;
+    background: #1e90ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover {
+    background: #0066cc;
+}
+@media (max-width: 992px) {
+    .container {
+        justify-content: center;
+    }
+    .cons-right {
+        width: 80%;
+        text-align: center;
+    }
+    .form-row {
+        flex-direction: column;
+    }
+    .cons-left {
+    display: none;
+}
+.cons-left img {
+    display: none;
+}
+}
+
+@media (max-width: 600px) {
+    .consultations {
+        background-position: center;
+        background-image: none;
+        background: linear-gradient(
+        to right,
+        rgba(7, 79, 168, 0.95) 0%,
+        rgba(25, 110, 210, 0.85) 40%,
+        rgba(80, 170, 255, 0.65) 75%,
+        rgba(255, 255, 255, 0.15) 100%
+    );
+    }
+    .cons-right {
+        width: 100%;
+    }
+    .cons-right h1 {
+        font-size: 28px;
+    }
+    .cons-left {
+    display: none;
+}
+.cons-left img {
+    display: none;
+}
+}

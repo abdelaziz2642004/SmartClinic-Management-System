@@ -25,12 +25,60 @@ namespace Clinic.Controllers
             _cancelRepo = cancelRepo;
         }
 
+        private static AppointmentDetailDto ToDetailDto(Appointment a) => new AppointmentDetailDto
+        {
+            AppointmentId = a.AppointmentId,
+            PatientId = a.PatientId,
+            DoctorId = a.DoctorId,
+            AppointmentDate = a.AppointmentDate,
+            AppointmentTime = a.AppointmentTime,
+            Status = a.Status.ToString(),
+            Message = a.Message,
+            CreatedAt = a.CreatedAt,
+            Patient = a.Patient == null ? null : new PatientInfoDto
+            {
+                Id = a.Patient.Id,
+                FullName = $"{a.Patient.FirstName} {a.Patient.LastName}".Trim(),
+                Email = a.Patient.Email,
+                Phone = a.Patient.PhoneNumber
+            },
+            Doctor = a.Doctor == null ? null : new DoctorInfoDto
+            {
+                Id = a.Doctor.Id,
+                Name = a.Doctor.Name,
+                SpecialtyName = a.Doctor.Specialty?.Name,
+                Phone = a.Doctor.Phone,
+                Email = a.Doctor.Email,
+                ConsultationFees = a.Doctor.ConsultationFees
+            },
+            Tags = a.Tags?.Select(t => new TagResponseDto
+            {
+                Id = t.Id,
+                TagName = t.TagName,
+                CreatedAt = t.CreatedAt
+            }).ToList() ?? new List<TagResponseDto>()
+        };
+
         // GET: api/appointments
+        // GET: api/appointments?mine=true       -> only the logged-in patient's own appointments
+        // GET: api/appointments?doctorId=3       -> only appointments for a given doctor (doctor dashboard)
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] bool mine = false, [FromQuery] int? doctorId = null)
         {
             var appointments = await _repo.GetAllAsync();
-            return Ok(appointments);
+
+            if (mine)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                appointments = appointments.Where(a => a.PatientId == userId).ToList();
+            }
+
+            if (doctorId.HasValue)
+            {
+                appointments = appointments.Where(a => a.DoctorId == doctorId.Value).ToList();
+            }
+
+            return Ok(appointments.Select(ToDetailDto));
         }
 
         // GET: api/appointments/5
@@ -40,16 +88,21 @@ namespace Clinic.Controllers
             var appointment = await _repo.GetByIdAsync(id);
             if (appointment == null)
                 return NotFound("الموعد مش موجود");
-            return Ok(appointment);
+            return Ok(ToDetailDto(appointment));
         }
 
         // POST: api/appointments
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreateAppointmentDto dto)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
             var appointment = new Appointment
             {
-                PatientId = dto.PatientId,
+                PatientId = userId,
                 DoctorId = dto.DoctorId,
                 AppointmentDate = dto.AppointmentDate,
                 AppointmentTime = dto.AppointmentTime,
@@ -57,10 +110,12 @@ namespace Clinic.Controllers
             };
 
             var created = await _repo.CreateAsync(appointment);
-            return CreatedAtAction(nameof(GetById), new { id = created.AppointmentId }, created);
+            var full = await _repo.GetByIdAsync(created.AppointmentId);
+            return CreatedAtAction(nameof(GetById), new { id = created.AppointmentId }, ToDetailDto(full!));
         }
 
         // PUT: api/appointments/5/confirm
+        [Authorize]
         [HttpPut("{id}/confirm")]
         public async Task<IActionResult> Confirm(int id)
         {
@@ -70,6 +125,7 @@ namespace Clinic.Controllers
         }
 
         // PUT: api/appointments/5/cancel
+        [Authorize]
         [HttpPut("{id}/cancel")]
         public async Task<IActionResult> Cancel(int id)
         {
@@ -81,6 +137,7 @@ namespace Clinic.Controllers
         }
 
         // PUT: api/appointments/5/complete
+        [Authorize]
         [HttpPut("{id}/complete")]
         public async Task<IActionResult> Complete(int id)
         {
@@ -90,6 +147,7 @@ namespace Clinic.Controllers
         }
 
         // DELETE: api/appointments/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -171,6 +229,7 @@ namespace Clinic.Controllers
         /// Command Pattern: Reverses the last canceled appointment for the current user.
         /// Demonstrates the Command Pattern's capability to store state history.
         /// </summary>
+        [Authorize]
         [HttpPost("undo-last-cancel")]
         public async Task<IActionResult> UndoLastCancel()
         {

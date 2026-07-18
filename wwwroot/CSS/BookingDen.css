@@ -1,0 +1,319 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  background: #f5f8fc;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: white;
+  position: fixed;
+  z-index: 999;
+  border-bottom: 1px solid #ddd;
+}
+.navbar ul li a {
+  display: block;
+  width: fit-content;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin-left: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  transition-duration: 0.5s;
+}
+.dropdown-menu {
+  border-radius: 12px;
+  border: none;
+}
+.dropdown-menu .dropdown-item {
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  transition-duration: 0.3s;
+  border-radius: 8px;
+}
+.navbar ul li a:hover {
+  color: #0d6efd;
+  scale: 1.1;
+  border-bottom: 2px solid #0d6efd;
+  
+}
+.navbar ul li a:hover:last-child{
+  margin-left: 20px;
+  width: fit-content;
+}
+.profile-icon {
+  display: none;
+}
+/* Mobile Fix */
+@media (max-width: 992px) {
+  .login {
+    text-align: center;
+  }
+}
+nav .item,
+.navbar-brand {
+  width: fit-content;
+  margin:0 auto;
+  text-align: center;
+}
+section {
+  background-color: #e0edfe;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  height: 88vh;
+}
+section img {
+  width: 550px;
+  max-width: 100%;
+  border-radius: 10px;
+}
+.btcenter {
+  display: block;
+  width: fit-content;
+  margin: auto;
+  margin-top: 30px;
+}
+/* .login {
+  padding: 20px;
+  background-color: #eee;
+}
+.content {
+  text-align: center;
+}
+.content h1 {
+  margin-top: 0;
+  font-size: 40px;
+  font-weight: 700;
+}
+.content .sec-logo {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+.sec-logo a {
+  text-decoration: none;
+  font-size: 20px;
+  color: black;
+}
+.sec-logo a:hover {
+  color: cornflowerblue;
+} */
+/* ===== Page ===== */
+.booking-page {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 10px 20px;
+}
+
+/* ===== Doctor Card ===== */
+.doctor-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.doctor-main-info {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.doctor-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.doctor-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.doctor-specialty {
+  color: #3b82f6;
+  font-size: 14px;
+}
+
+.doctor-location {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.booking-info {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+/* ===== Booking Box ===== */
+.booking-box {
+  display: flex;
+  gap: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+/* ===== Calendar ===== */
+.calendar-box {
+  width: 35%;
+}
+@media (max-width: 768px) {
+  .booking-box {
+    flex-direction: column;
+  }
+  .calendar-box {
+    width: 100%;
+  }
+  .slots-box {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    margin: auto;
+  }
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.calendar-nav {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  cursor: pointer;
+}
+
+.calendar-weekdays,
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  gap: 6px;
+}
+
+.calendar-weekdays div {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.calendar-days div {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.calendar-days div:empty {
+  cursor: default;
+}
+/* .calendar-days div:hover:not(:empty) {
+  /* background: #eef2ff; 
+} */
+.calendar-days .today {
+  border: 1px solid #3b82f6;
+  font-weight: 600;
+}
+
+.calendar-days .selected {
+  background: #3b82f6;
+  color: #fff;
+}
+
+/* ===== Slots ===== */
+.slots-box {
+  width: 65%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.time-slot {
+  border: 1px solid #e5e7eb;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.time-slot span {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.time-slot.active {
+  background: #3b82f6;
+  color: #fff;
+  border-color: #3b82f6;
+}
+
+.time-slot.active span {
+  color: #e0e7ff;
+}
+
+/* ===== Footer ===== */
+.booking-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn-back {
+  background: #111827;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.btn-next {
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.btn-back:hover{
+  background-color: #111827;
+  opacity: 0.7;
+}
+.btn-next:hover {
+  background: #3b82f6;
+  opacity: 0.7;
+}
+.empty-slots {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  padding: 20px 0;
+}

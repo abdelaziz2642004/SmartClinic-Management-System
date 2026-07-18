@@ -1,0 +1,265 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  background: #f5f8fc;
+  margin: 0;
+  padding: 0;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: white;
+  position: fixed;
+  z-index: 999;
+  border-bottom: 1px solid #ddd;
+}
+.navbar ul li a {
+  display: block;
+  width: fit-content;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin-left: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  transition-duration: 0.5s;
+}
+.dropdown-menu {
+  border-radius: 12px;
+  border: none;
+}
+.dropdown-menu .dropdown-item {
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  transition-duration: 0.3s;
+  border-radius: 8px;
+}
+.navbar ul li a:hover {
+  color: #0d6efd;
+  scale: 1.1;
+  border-bottom: 2px solid #0d6efd;
+  
+}
+.navbar ul li a:hover:last-child{
+  margin-left: 20px;
+  width: fit-content;
+}
+/* .profile-icon {
+  display: none;
+} */
+/* Mobile Fix */
+ @media (max-width: 992px) {
+  .login {
+    text-align: center;
+  }
+}
+nav .item,
+.navbar-brand {
+  width: fit-content;
+  margin:0 auto;
+  text-align: center;
+}
+/* section {
+  background-color: #e0edfe;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  height: 88vh;
+} */
+ section img {
+  width: 550px;
+  max-width: 100%;
+  border-radius: 10px;
+} 
+ .btcenter {
+  display: block;
+  width: fit-content;
+  margin: auto;
+  margin-top: 30px;
+}
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Success */
+.success-text {
+  color: #16a34a;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.success-text i {
+  margin-right: 6px;
+}
+
+/* Order Info */
+.order-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+.order-info span {
+  display: block;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.order-info strong {
+  font-size: 14px;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.card-header h3 {
+  font-size: 15px;
+  margin: 0;
+}
+
+.print-btn {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.print-btn:hover {
+  opacity: 0.85;
+}
+
+.card-body .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+  font-size: 14px;
+}
+
+.card-body .row:nth-child(odd) {
+  background: #f9fafb;
+}
+
+/* Back Button */
+.back-btn {
+  margin-top: 20px;
+  background: transparent;
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: #3b82f6;
+  color: #fff;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  white-space: nowrap;
+}
+@media (max-width: 992px) {
+
+  .container {
+    padding: 15px;
+  }
+
+  .order-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card-body .row {
+    font-size: 13px;
+  }
+
+}
+@media (max-width: 768px) {
+
+  .success-text {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .order-info {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .card-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .print-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .card-body .row {
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .card-body .row span:last-child {
+    font-weight: 600;
+  }
+
+  .back-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+}
+@media (max-width: 480px) {
+
+  .card-header h3 {
+    font-size: 13px;
+  }
+
+  .order-info strong {
+    font-size: 13px;
+  }
+
+  .card-body .row {
+    font-size: 12px;
+  }
+}
+@media print {
+  .print-btn,
+  .back-btn {
+    display: none;
+  }
+}

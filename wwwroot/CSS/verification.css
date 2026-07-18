@@ -1,0 +1,112 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+}
+ul {
+  list-style: none;
+}
+.login {
+  padding: 25px;
+  background-color: #eee;
+}
+.content {
+  text-align: center;
+}
+.content h1 {
+  margin-top: 0;
+  font-size: 40px;
+  font-weight: 700;
+}
+.content .sec-logo {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+.sec-logo a {
+  text-decoration: none;
+  font-size: 16px;
+  color: black;
+}
+.sec-logo a:hover {
+  color: cornflowerblue;
+}
+.sec-logo i {
+  font-size: 14px;
+}
+.container {
+  margin-top: 150px;
+}
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 70px;
+  background-color: #fff;
+}
+.img img {
+  height: 260px;
+}
+.message {
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  color: #777;
+}
+.message h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.message p {
+  font-size: 16px;
+}
+.message label {
+  color: #465d7c;
+}
+.message label span {
+  color: red;
+  font-size: 16px;
+}
+.message input {
+  width: 90%;
+  margin: auto;
+  height: 35px;
+  padding: 10px;
+}
+.message button {
+  width: 90%;
+  margin: auto;
+  background-color: #09e5ab;
+  border: none;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  height: 35px;
+}
+@media (max-width: 767px) {
+  .container {
+    margin-top: 50px;
+  }
+  .box {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+.emailAlert{
+  display: none;
+  color: red;
+  background-color: rgb(221, 196, 196);
+  padding: 10px;
+  font-size: 13px;
+  border-radius: 5px;
+  font-weight: 500;
+}

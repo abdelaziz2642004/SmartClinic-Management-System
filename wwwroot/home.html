@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+ <html lang="en">
+
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Home</title>
+   <!-- Font Awesome Library -->
+   <link rel="stylesheet" href="CSS/all.min.css" />
+   <!-- Render All Element Normally -->
+   <link rel="stylesheet" href="CSS/normalize.css" />
+   <!-- Main CSS File -->
+   <link rel="stylesheet" href="CSS/home.css" />
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+   <!-- Bootstrap -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+ </head>
+
+ <body>
+   <!-- Start Navbar -->
+   <nav class="navbar navbar-expand-lg position-sticky top-0 navbar-custom">
+     <div class="container-fluid">
+       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+       </button>
+       <a class="navbar-brand right-0 navbar-toggler border-0" href="#"><img src="images/Logo1 Update.png" alt="" width="150px" /></a>
+       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+         <a class="navbar-brand" href="#"><img src="images/Logo1 Update.png" alt="" width="150px" /></a>
+         <ul class="navbar-nav me-auto mb-2 mb-lg-0 item">
+           <li class="nav-item" id="Home">
+             <a class="nav-link" aria-current="page" href="home.html">Home</a>
+           </li>
+           <li class="nav-item" id="About">
+             <a class="nav-link" href="About.html">About</a>
+           </li>
+           <li class="nav-item" id="Services">
+             <a class="nav-link" href="Services.html">Services</a>
+           </li>
+           <li class="nav-item" id="Doctors">
+             <a class="nav-link" href="Doctors.html">Doctors</a>
+           </li>
+           <li class="nav-item" id="Consultations">
+             <a class="nav-link" href="Consultations.html">Consultations</a>
+           </li>
+           <li class="nav-item" id="Dashboard" style="display:none;">
+             <a class="nav-link" href="Cardiology Dashboard.html">Dashboard</a>
+           </li>
+           <li class="nav-item" id="AdminNav" style="display:none;">
+             <a class="nav-link" href="Admin.html">Admin Panel</a>
+           </li>
+           <li class="nav-item" id="ContactUs">
+             <a class="nav-link" href="ContactUs.html">Contact Us</a>
+           </li>
+         </ul>
+           <div class="logout" id="loggedOutNav">
+             <a href="index.html"><button class="btn btn-primary me-3" type="button">Login</button></a>
+             <a href="index.html"><button class="btn btn-outline-primary me-5" type="button">Register</button></a>
+           </div>
+           <ul class="navbar-nav ms-auto spe profile-icon" id="profileIcon" style="display:none;">
+             <li class="nav-item dropdown me-5">
+               <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userMenu" role="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">
+                 <i class="fas fa-user-circle fa-lg me-1"></i>
+               </a>
+               <ul class="dropdown-menu dropdown-menu-end ms-5" aria-labelledby="userMenu">
+                 <li><a class="dropdown-item" href="appointments.html">
+                     <i class="fas fa-calendar-check me-1"></i> My Appointments</a>
+                 </li>
+                 <li><a class="dropdown-item text-danger" href="#">
+                     <i class="fa-solid fa-right-from-bracket"></i> Log-out</a>
+                 </li>
+               </ul>
+             </li>
+           </ul>
+       </div>
+     </div>
+   </nav>
+   <!-- End Navbar -->
+   <!-- Start Home Section-->
+   <section id="up">
+     <div>
+       <h2>Discover Health : Find Your Trusted Doctors</h2>
+       <h5>Join us now and take the first step towards better health!</h5>
+       <a href="index.html" class="btcenter"><button class="btn btn-primary btn-lg">Get Started</button></a>
+     </div>
+     <div>
+       <img src="images/img 1.jpg" alt="Home Image" />
+     </div>
+   </section>
+   <!-- End Home Section-->
+   <!-- Start Clinic Specialities Section -->
+   <h1 class="special">Clinic & Specialities</h1>
+   <div class="container">
+     <div class="content">
+       <div class="box">
+         <div class="t-effect">
+           <img src="images/Cardiology.jpg" alt="Cardiology" />
+         </div>
+         <h3>Cardiology</h3>
+       </div>
+       <div class="box">
+         <div class="t-effect">
+           <img src="images/Dentist.jpg" alt="Dentist" />
+         </div>
+         <h3>Dentist</h3>
+       </div>
+       <div class="box">
+         <div class="t-effect">
+           <img src="images/Orthopedics.jpg" alt="Orthopedics" />
+         </div>
+         <h3>Orthopedics</h3>
+       </div>
+       <div class="box">
+         <div class="t-effect">
+           <img src="images/Portable-Laptop-12-Channel-12-1-Inch-Electrocardiograph-Monitor-ECG-Machine.avif" alt="Gynecology" class="spe" />
+         </div>
+         <h3>ECG</h3>
+       </div>
+       <div class="box">
+         <div class="t-effect">
+           <img src="images/Orthopedics.jpg" alt="Rays" />
+         </div>
+         <h3>Rays</h3>
+       </div>
+       <div class="box">
+         <div class="t-effect">
+           <img src="images/laboratory.jpg" alt="Laboratory" />
+         </div>
+         <h3>Laboratory</h3>
+       </div>
+     </div>
+   </div>
+   <!-- End Clinic Specialities Section -->
+   <!-- Start Our Doctors -->
+   <h1 class="special">Our Highlighted Doctors</h1>
+   <div class="container">
+     <div class="doctors" id="highlightedDoctors">
+       <p style="text-align:center;width:100%;">Loading doctors...</p>
+     </div>
+   </div>
+   <!-- End Our Doctors -->
+   <!-- Start Steps Section -->
+   <div class="step-section">
+     <section class="how-it-works">
+       <div class="container">
+         <div class="left">
+           <img src="images/Step.png" alt="Doctor" />
+         </div>
+
+         <div class="right">
+           <h4 class="small-title">How it Works</h4>
+           <h2 class="main-title">4 easy steps to get your solution</h2>
+
+           <div class="steps">
+             <div class="step">
+               <div class="icon"><img src="images/search.svg" alt="" /></div>
+               <h3>Search Doctor</h3>
+               <p>Search for a doctor based on specialization or availability.</p>
+             </div>
+
+             <div class="step">
+               <div class="icon"><img src="images/check.svg" alt="" /></div>
+               <h3>Check Doctor Profile</h3>
+               <p>Explore detailed doctor profiles on our platform to make informed healthcare decisions.</p>
+             </div>
+
+             <div class="step">
+               <div class="icon"><img src="images/schedule.svg" alt="" /></div>
+               <h3>Schedule Appointment</h3>
+               <p>After choose your preferred doctor, select a convenient time slot, & confirm your appointment.</p>
+             </div>
+
+             <div class="step">
+               <div class="icon"><img src="images/solution.svg" alt="" /></div>
+               <h3>Get Your Solution</h3>
+               <p>Discuss your health concerns with the doctor and receive personalized advice & solution.</p>
+             </div>
+           </div>
+         </div>
+       </div>
+     </section>
+   </div>
+   <!-- End Steps Section -->
+   <!-- Start Testimonial Section -->
+   <nav class="test">
+     <h1 class="special">Testimonial</h1>
+     <h3 style="text-align: center">What Our Patients Say</h3>
+     <div class="container">
+       <div class="testimonials">
+         <div class="testimonial-card">
+           <div class="rating">★★★★★</div>
+           <h6>Nice Treatment</h6>
+           <p>"The doctors here are amazing! They took great care of me and made me feel comfortable throughout my treatment So Thanks a lot."</p>
+           <div class="image">
+             <img src="images/Patient-1.jpeg" alt="Patient 1" />
+             <h5>Ahmed L.</h5>
+           </div>
+         </div>
+         <div class="testimonial-card">
+           <div class="rating">★★★★☆</div>
+           <h6>Good Hospitability</h6>
+           <p>"I had a wonderful experience at this clinic. The staff was friendly and professional, and the facilities were top-notch."</p>
+           <div class="image">
+             <img src="images/Patient-2.jpg" alt="Patient 2" />
+             <h5>Sara R.</h5>
+           </div>
+         </div>
+         <div class="testimonial-card">
+           <div class="rating">★★★★★</div>
+           <h6>Nice Treatment</h6>
+           <p>"I highly recommend this clinic to anyone in need of medical care. The doctors are knowledgeable and compassionate."</p>
+           <div class="image">
+             <img src="images/Patient-3.jpeg" alt="Patient 3" />
+             <h5>Jack T.</h5>
+           </div>
+         </div>
+       </div>
+       <div class="client">
+         <div class="client-Feautres">
+           <p class="one num" data-goal="50">0</p>
+           <h5>Doctor Available</h5>
+         </div>
+         <div class="client-Feautres">
+           <p class="two num" data-goal="20">0</p>
+           <h5>Specialities</h5>
+         </div>
+         <div class="client-Feautres">
+           <p class="three num" data-goal="450">0</p>
+           <h5>Booking Done</h5>
+         </div>
+         <div class="client-Feautres">
+           <p class="four num" data-goal="15">0</p>
+           <h5>Hospital & Clinic</h5>
+         </div>
+         <div class="client-Feautres">
+           <p class="five num" data-goal="317">0</p>
+           <h5>Lab Test Available</h5>
+         </div>
+       </div>
+     </div>
+   </nav>
+   <!-- End Testimonial Section -->
+   <!-- Start Scan Section -->
+   <div class="scan">
+     <div class="container">
+       <div class="scan-content">
+         <h2>Scan QR Code To Display On Mobile</h2>
+         <img src="images/QR Code.jpg" alt="QR Code" />
+       </div>
+       <div class="images">
+         <img src="images/mobile-App.png" alt="Mobile Display" />
+       </div>
+     </div>
+   </div>
+   <!-- End Scan Section -->
+   <!-- Start Footer -->
+   <div class="footer">
+     <div class="container">
+       <div class="footer-content">
+         <div class="footer-box">
+           <h3>Documentation</h3>
+           <ul>
+             <li><a href="#">Medical</a></li>
+             <li><a href="#">Operation</a></li>
+             <li><a href="#">Laboratory</a></li>
+           </ul>
+         </div>
+         <div class="footer-box">
+           <h3>Treatments</h3>
+           <ul>
+             <li><a href="BookingCardiology.html">Cardiologist</a></li>
+             <li><a href="BookingDen.html">Dentist</a></li>
+             <li><a href="BookingOrthopedics.html">Orthopedics</a></li>
+           </ul>
+         </div>
+         <div class="footer-box">
+           <h3>Specialities</h3>
+           <ul>
+             <li><a href="OrthopedicsDetails.html">Orthopedics</a></li>
+             <li><a href="CardiologyDetails.html">Cardiologist</a></li>
+             <li><a href="DentistDetail.html">Dentist</a></li>
+           </ul>
+         </div>
+         <div class="footer-box">
+           <h3 class="me">Utilites</h3>
+           <ul>
+             <li><a href="">Operation</a></li>
+             <li><a href="">Laboratory</a></li>
+             <li><a href="">Medical</a></li>
+           </ul>
+         </div>
+         <div class="footer-box">
+           <h3>Contact Us</h3>
+           <p>Working for Your Better Health.</p>
+           <p>Contact With Us</p>
+           <ul class="social">
+             <li>
+               <a href="#"><i class="fa-brands fa-facebook"></i></a>
+             </li>
+             <li>
+               <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+             </li>
+             <li>
+               <a href="#"><i class="fa-brands fa-instagram"></i></a>
+             </li>
+             <li>
+               <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+             </li>
+           </ul>
+         </div>
+       </div>
+     </div>
+   </div>
+   <div class="copyright">
+     <p>© 2025 All Rights Reserved. Designed by MediCarely Team</p>
+     <div class="terms">
+       <p>Terms and Conditions</p>
+       <p>Privacy Policy</p>
+     </div>
+   </div>
+   <!-- End Footer -->
+   <a href="#up">
+     <div class="up">
+       <i class="fa-solid fa-circle-up"></i>
+     </div>
+   </a>
+   <script src="Java/api.js"></script>
+   <script src="Java/home.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+ </body>
+
+ </html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultations</title>
+   <link rel="stylesheet" href="CSS/all.min.css" />
+   <link rel="stylesheet" href="CSS/normalize.css" />
+   <link rel="stylesheet" href="CSS/Consultations.css" />
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <section class="consultations">
+        <div class="overlay">
+            <div class="main-container">
+            <div class="cons-left">
+                <img src="images/Consultation.png" alt="">
+            </div>
+            <div class="cons-right">
+                <h1> Search Doctor, Make <br> an <span>Appointment</span> </h1>
+                <form id="appointmentForm">
+                    <div class="form-group full"> 
+                        <select required> 
+                            <option value="">Select a location</option>
+                            <option>Cairo</option>
+                            <option>Alexandria</option> 
+                            <option>Minia</option>
+                        </select>
+                    </div>
+                <div class="form-row">
+                    <select required>
+                        <option value="">Search by gender</option> 
+                        <option>Male</option> 
+                        <option>Female</option> 
+                    </select>
+                    <select id="speciality" required> 
+                        <option value="">Select a speciality</option>
+                        <option value="BookingCardiology.html">Cardiology</option>
+                        <option value="BookingDen.html">Dentist</option>
+                        <option value="BookingOrthopedics.html">Orthopedics</option> 
+                    </select> 
+                </div>
+                <button type="submit">MAKE APPOINTMENT</button>
+                </form>
+                </div> 
+                </div>
+        </div>
+    </section>
+    <script src="Java/api.js"></script>
+    <script src="Java/Consultations.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>
